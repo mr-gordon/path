@@ -48,3 +48,7 @@ swift tools/make-icons.swift     # App- und Menüleisten-Icon neu erzeugen
 | `Sources/path` | SwiftUI-App (Menüleiste, Popover, Einstellungen) |
 | `Tests/PathCoreTests` | Unit-Tests |
 | `Resources` | `Info.plist`, Icons |
+
+## Lizenz
+
+[MIT](LICENSE)
