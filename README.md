@@ -21,7 +21,7 @@ Alles läuft lokal. Es werden keine Anmeldedaten abgefangen oder gespeichert und
 
 ## Installation
 
-1. `path-1.0.zip` aus den [Releases](https://github.com/mr-gordon/path/releases) laden und entpacken.
+1. `path-1.0.5.zip` aus den [Releases](https://github.com/mr-gordon/path/releases) laden und entpacken.
 2. `path.app` nach „Programme“ verschieben.
 3. Die App ist nur ad-hoc signiert. Beim ersten Start: Rechtsklick → „Öffnen“, oder
    ```bash
@@ -48,6 +48,11 @@ swift tools/make-icons.swift     # App- und Menüleisten-Icon neu erzeugen
 | `Sources/path` | SwiftUI-App (Menüleiste, Popover, Einstellungen) |
 | `Tests/PathCoreTests` | Unit-Tests |
 | `Resources` | `Info.plist`, Icons |
+
+## Änderungen
+
+**1.0.5** – Öffnen unerreichbarer Server hängt die App nicht mehr auf (Erreichbarkeits-Check zuerst, Mount-Suche im Hintergrund), Ladeanzeige beim Öffnen.
+**1.0** – Erste Version.
 
 ## Lizenz
 
