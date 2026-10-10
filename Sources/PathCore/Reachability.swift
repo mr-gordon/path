@@ -3,7 +3,7 @@ import Network
 
 public enum Reachability {
     /// Schneller TCP-Check auf Port 445.
-    public static func isReachable(host: String, port: UInt16 = 445, timeout: TimeInterval = 2) async -> Bool {
+    public static func isReachable(host: String, port: UInt16 = 445, timeout: TimeInterval = 1.5) async -> Bool {
         await withCheckedContinuation { cont in
             let conn = NWConnection(host: NWEndpoint.Host(host), port: NWEndpoint.Port(rawValue: port)!, using: .tcp)
             let lock = NSLock()

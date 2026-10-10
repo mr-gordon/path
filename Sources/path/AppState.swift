@@ -20,6 +20,7 @@ final class AppState {
 
     private(set) var history: [HistoryItem] = []
     var notice: String?
+    private(set) var isOpening = false
 
     var mappings: [DriveMapping] { didSet { save(mappings, key: "mappings") } }
     var discardHistoryOnQuit: Bool { didSet { UserDefaults.standard.set(discardHistoryOnQuit, forKey: "discardOnQuit") } }
@@ -117,17 +118,18 @@ final class AppState {
     }
 
     func open(_ item: HistoryItem) {
-        if let local = MountedVolumes.localURL(forSMB: item.smb) {
-            NSWorkspace.shared.open(local) // bereits eingehängt: kein erneutes Verbinden nötig
-            return
-        }
-        guard let url = PathConverter.url(for: item.smb), let host = PathConverter.host(of: item.smb) else { return }
+        guard !isOpening, let url = PathConverter.url(for: item.smb), let host = PathConverter.host(of: item.smb) else { return }
+        isOpening = true
         Task {
+            defer { isOpening = false }
+            // Erst erreichbar? Dateisystem-Zugriffe auf eine tote SMB-Freigabe blockieren sonst den ganzen Thread.
             guard await Reachability.isReachable(host: host) else {
                 showNotice("\(host) nicht erreichbar – Netzwerk oder VPN prüfen.")
                 return
             }
-            NSWorkspace.shared.open(url)
+            let smb = item.smb
+            let local = await Task.detached { MountedVolumes.localURL(forSMB: smb) }.value
+            NSWorkspace.shared.open(local ?? url) // eingehängt: kein erneutes Verbinden nötig
         }
     }
 

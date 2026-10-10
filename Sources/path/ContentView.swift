@@ -27,6 +27,7 @@ struct ContentView: View {
     private var header: some View {
         HStack {
             Text("path").font(.headline)
+            if state.isOpening { ProgressView().controlSize(.small) }
             Spacer()
             Button { showSettings.toggle() } label: {
                 Image(systemName: showSettings ? "checkmark" : "gearshape")
